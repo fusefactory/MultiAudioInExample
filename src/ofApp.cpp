@@ -26,6 +26,7 @@ void ofApp::setup(){
 	smoothedVol = 0.0;
 	scaledVol = 0.0;
 
+	buffer = new float[numChannels * bufferSize];
 	soundStream.setup(this, 0, numChannels, 44100, bufferSize, 4);
 }
 
@@ -81,10 +82,11 @@ void ofApp::audioIn(float * input, int bufferSize, int nChannels) {
 
 	frameRateAudio = 1.0 / (ofGetElapsedTimef() - lastTime);
 	lastTime = currentTime;
+	memcpy(buffer, input, sizeof(float) * nChannels * bufferSize);
 
-	for (int i = 0; i < bufferSize * nChannels; i++) {
+	/*for (int i = 0; i < bufferSize * nChannels; i++) {
 		buffer[i] = input[i];
-	}
+	}*/
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
