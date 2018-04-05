@@ -34,7 +34,7 @@ void ofApp::update(){
 
 }
 
-void ofApp::drawBufferSample(const float buffer[], const int channel, const int bufferSize, float x, float y, float width, float height) {
+void ofApp::drawBufferSample(const float buffer[], const int numChannels,const int channel, const int bufferSize, float x, float y, float width, float height) {
 	ofPushStyle();
 	ofPushMatrix();
 	ofTranslate(x, y, 0);
@@ -47,13 +47,14 @@ void ofApp::drawBufferSample(const float buffer[], const int channel, const int 
 
 	ofBeginShape();
 	for (unsigned int i = 0; i < bufferSize ; i++) {
-		float x = 1.0 * i / bufferSize * width;
-		float y = buffer[i * numChannels + channel] * height / 2.0 + height / 2.0;
-		ofVertex(x, y);
+		 const float sampleValue = buffer[i * numChannels + channel];
 
-		//ofEllipse(x, y, 5, 5);
+		float x = 1.0 * i / bufferSize * width;
+		float y = height / 2.0 + sampleValue * height / 2.0;
+		ofVertex(x, y);
 	}
 	ofEndShape(false);
+
 	ofPopStyle();
 	ofPopMatrix();
 }
@@ -65,9 +66,8 @@ void ofApp::draw(){
 	float h = (ofGetHeight() / numChannels) - 20;
 
 	for (int channel = 0; channel < numChannels; channel++) {
-		drawBufferSample(buffer, channel, 512, 25, channel * (h + 10) + 10, w, h);
+		drawBufferSample(buffer, numChannels, channel, bufferSize, 25, channel * (h + 10) + 10, w, h);
 	}
-
 
 	ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), 100, 100, ofColor(255, 0, 0), ofColor(0));
 }
