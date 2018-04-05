@@ -21,7 +21,12 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 		
-		void audioIn(float * input, int bufferSize, int nChannels);
+		void updateFrameRateAudio();
+		//void audioIn(float * input, int bufferSize, int nChannels);
+		void audioIn(ofSoundBuffer &outBuffer);
+
+		void drawBufferSample(const float buffer[], const int numChannels, const int channel, const int bufferSize, float x, float y, float width, float height);
+		void drawBufferSample(const ofSoundBuffer &soundBuffer, const int channel, float x, float y, float width, float height);
 
 		vector <float> left;
 		vector <float> right;
@@ -39,5 +44,6 @@ class ofApp : public ofBaseApp{
 		float *buffer;
 		float lastTime;
 		float frameRateAudio;
-		void drawBufferSample(const float buffer[], const int numChannels, const int channel, const int bufferSize, float x, float y, float width, float height);
+
+		ofSoundBuffer lastBuffer;
 };
