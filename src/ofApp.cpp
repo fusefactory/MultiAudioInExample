@@ -40,7 +40,7 @@ void ofApp::drawBufferSample(const float buffer[], const int numChannels,const i
 	ofTranslate(x, y, 0);
 
 	ofDrawRectangle(0, 0, width, height);
-	ofDrawBitmapString(ofToString(channel), -10, 0);
+	ofDrawBitmapString(ofToString(channel), -15, height / 2.0);
 
 	ofSetColor(245, 58, 135);
 	ofSetLineWidth(3);
@@ -62,14 +62,16 @@ void ofApp::drawBufferSample(const float buffer[], const int numChannels,const i
 //--------------------------------------------------------------
 void ofApp::draw(){
 
-	float w = (ofGetWidth() - 50);
+	float w = (ofGetWidth() - 75) / 2.0;
 	float h = (ofGetHeight() / numChannels) - 20;
 
 	for (int channel = 0; channel < numChannels; channel++) {
-		drawBufferSample(buffer, numChannels, channel, bufferSize, 25, channel * (h + 10) + 10, w, h);
+		float x = channel % 2 * (w + 25) + 25;
+		float y = channel / 2 * (h + 10) + 25;
+		drawBufferSample(buffer, numChannels, channel, bufferSize, x, y, w, h);
 	}
 
-	ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), 100, 100, ofColor(255, 0, 0), ofColor(0));
+	ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), 15, 15, ofColor(255, 0, 0), ofColor(0));
 }
 
 void ofApp::audioIn(float * input, int bufferSize, int nChannels) {
