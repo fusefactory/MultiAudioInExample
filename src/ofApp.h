@@ -37,5 +37,7 @@ class ofApp : public ofBaseApp{
 		const int numChannels = 12;
 		const int bufferSize = 512;
 		float buffer[12 * 512];
+		float lastTime;
+		float frameRateAudio;
 		void drawBufferSample(const float buffer[], const int numChannels, const int channel, const int bufferSize, float x, float y, float width, float height);
 };

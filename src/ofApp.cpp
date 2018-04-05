@@ -40,7 +40,7 @@ void ofApp::drawBufferSample(const float buffer[], const int numChannels,const i
 	ofTranslate(x, y, 0);
 
 	ofDrawRectangle(0, 0, width, height);
-	ofDrawBitmapString(ofToString(channel), -15, height / 2.0);
+	ofDrawBitmapString(ofToString(channel+1), -15, height / 2.0);
 
 	ofSetColor(245, 58, 135);
 	ofSetLineWidth(3);
@@ -71,10 +71,17 @@ void ofApp::draw(){
 		drawBufferSample(buffer, numChannels, channel, bufferSize, x, y, w, h);
 	}
 
-	ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), 15, 15, ofColor(255, 0, 0), ofColor(0));
+	ofDrawBitmapStringHighlight("fps: " + ofToString(ofGetFrameRate()), 15, 15, ofColor(255, 0, 0), ofColor(0));
+	ofDrawBitmapStringHighlight("fps Audio: " + ofToString((int) frameRateAudio), 150, 15, ofColor(255, 0, 0), ofColor(0));
+
 }
 
 void ofApp::audioIn(float * input, int bufferSize, int nChannels) {
+	float currentTime = ofGetElapsedTimef();
+
+	frameRateAudio = 1.0 / (ofGetElapsedTimef() - lastTime);
+	lastTime = currentTime;
+
 	for (int i = 0; i < bufferSize * nChannels; i++) {
 		buffer[i] = input[i];
 	}
