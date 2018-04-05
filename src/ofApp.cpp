@@ -3,29 +3,19 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofSetVerticalSync(true);
-	ofSetCircleResolution(80);
 	ofBackground(54, 54, 54);
 
 	// 0 output channels, 
-	// 2 input channels
+	// 12 input channels
 	// 44100 samples per second
-	// 256 samples per buffer
-	// 4 num buffers (latency)
+	// 512 samples per buffer
+	// 4 num buffers (latency) ??
 
 	soundStream.printDeviceList();
-
+	
 	//if you want to set a different device id 
-	soundStream.setDeviceID(1); //bear in mind the device id corresponds to all audio devices, including  input-only and output-only devices.
-
-	left.assign(bufferSize, 0.0);
-	right.assign(bufferSize, 0.0);
-	volHistory.assign(400, 0.0);
-
-	bufferCounter = 0;
-	drawCounter = 0;
-	smoothedVol = 0.0;
-	scaledVol = 0.0;
-
+	soundStream.setDeviceID(3); //bear in mind the device id corresponds to all audio devices, including  input-only and output-only devices.
+    
 	buffer = new float[numChannels * bufferSize];
 	soundStream.setup(this, 0, numChannels, 44100, bufferSize, 4);
 }
@@ -89,7 +79,7 @@ void ofApp::drawBufferSample(const float buffer[], const int numChannels,const i
 void ofApp::draw(){
 
 	float w = (ofGetWidth() - 75) / 2.0;
-	float h = (ofGetHeight() / numChannels) - 20;
+	float h = ((ofGetHeight() - 40) / (numChannels / 2.0)) - 10;
 
 	for (int channel = 0; channel < numChannels; channel++) {
 		float x = channel % 2 * (w + 25) + 25;
@@ -110,11 +100,13 @@ void ofApp::updateFrameRateAudio() {
 	lastTime = currentTime;
 }
 
-/*void ofApp::audioIn(float * input, int bufferSize, int nChannels) {
+/* //Alternative way is using directly float pointer buffer
+ 
+ void ofApp::audioIn(float * input, int bufferSize, int nChannels) {
 	updateFrameRateAudio();
 	memcpy(buffer, input, sizeof(float) * nChannels * bufferSize);
 
-	/*for (int i = 0; i < bufferSize * nChannels; i++) {
+	for (int i = 0; i < bufferSize * nChannels; i++) {
 		buffer[i] = input[i];
 	}
 }*/

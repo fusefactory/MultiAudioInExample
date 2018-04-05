@@ -28,16 +28,6 @@ class ofApp : public ofBaseApp{
 		void drawBufferSample(const float buffer[], const int numChannels, const int channel, const int bufferSize, float x, float y, float width, float height);
 		void drawBufferSample(const ofSoundBuffer &soundBuffer, const int channel, float x, float y, float width, float height);
 
-		vector <float> left;
-		vector <float> right;
-		vector <float> volHistory;
-
-		int 	bufferCounter;
-		int 	drawCounter;
-
-		float smoothedVol;
-		float scaledVol;
-
 		ofSoundStream soundStream;
 		const int numChannels = 12;
 		const int bufferSize = 512;
