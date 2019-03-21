@@ -29,7 +29,7 @@ class ofApp : public ofBaseApp{
 		void drawBufferSample(const ofSoundBuffer &soundBuffer, const int channel, float x, float y, float width, float height);
 
 		ofSoundStream soundStream;
-		const int numChannels = 12;
+		const int numInputChannels = 12;
 		const int bufferSize = 512;
 		float *buffer;
 		float lastTime;

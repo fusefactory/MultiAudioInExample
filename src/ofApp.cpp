@@ -11,13 +11,23 @@ void ofApp::setup(){
 	// 512 samples per buffer
 	// 4 num buffers (latency) ??
 
-	soundStream.printDeviceList();
-	
-	//if you want to set a different device id 
-	soundStream.setDeviceID(3); //bear in mind the device id corresponds to all audio devices, including  input-only and output-only devices.
+    buffer = new float[numInputChannels * bufferSize];
     
-	buffer = new float[numChannels * bufferSize];
-	soundStream.setup(this, 0, numChannels, 44100, bufferSize, 4);
+    soundStream.printDeviceList();
+
+    ofSoundStreamSettings settings;
+    settings.sampleRate = 44100;
+    settings.bufferSize = bufferSize;
+    settings.numBuffers = 4;
+    settings.numInputChannels = numInputChannels;
+    settings.numOutputChannels = 0;
+    settings.setInListener(this);
+    
+    auto devices = soundStream.getMatchingDevices("default");
+    if(!devices.empty()){
+        settings.setInDevice(devices[0]);
+    }
+    soundStream.setup(settings);
 }
 
 //--------------------------------------------------------------
@@ -79,12 +89,12 @@ void ofApp::drawBufferSample(const float buffer[], const int numChannels,const i
 void ofApp::draw(){
 
 	float w = (ofGetWidth() - 75) / 2.0;
-	float h = ((ofGetHeight() - 40) / (numChannels / 2.0)) - 10;
+	float h = ((ofGetHeight() - 40) / (numInputChannels / 2.0)) - 10;
 
-	for (int channel = 0; channel < numChannels; channel++) {
+	for (int channel = 0; channel < numInputChannels; channel++) {
 		float x = channel % 2 * (w + 25) + 25;
 		float y = channel / 2 * (h + 10) + 25;
-		//drawBufferSample(buffer, numChannels, channel, bufferSize, x, y, w, h);
+		//drawBufferSample(buffer, numInputChannels, channel, bufferSize, x, y, w, h);
 		drawBufferSample(lastBuffer, channel, x, y, w, h);
 	}
 
