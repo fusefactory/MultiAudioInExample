@@ -5,6 +5,7 @@ void ofApp::setup(){
 	ofSetVerticalSync(true);
 	ofBackground(54, 54, 54);
 
+	ofSetLogLevel(OF_LOG_VERBOSE);
 	// 0 output channels, 
 	// 12 input channels
 	// 44100 samples per second
@@ -13,7 +14,8 @@ void ofApp::setup(){
 
     buffer = new float[numInputChannels * bufferSize];
     
-    soundStream.printDeviceList();
+	// TODO: removed to avoid problem with JackRouter with OF 11 with Windows 10  
+   // soundStream.printDeviceList();
 
     ofSoundStreamSettings settings;
     settings.sampleRate = 44100;
@@ -23,7 +25,8 @@ void ofApp::setup(){
     settings.numOutputChannels = 0;
     settings.setInListener(this);
     
-    auto devices = soundStream.getMatchingDevices("default");
+
+    auto devices = soundStream.getMatchingDevices("JackRouter");
     if(!devices.empty()){
         settings.setInDevice(devices[0]);
     }
