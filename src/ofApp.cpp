@@ -15,7 +15,7 @@ void ofApp::setup(){
     buffer = new float[numInputChannels * bufferSize];
     
 	// TODO: removed to avoid problem with JackRouter with OF 11 with Windows 10  
-   // soundStream.printDeviceList();
+   soundStream.printDeviceList();
 
     ofSoundStreamSettings settings;
     settings.sampleRate = 44100;
@@ -25,8 +25,7 @@ void ofApp::setup(){
     settings.numOutputChannels = 0;
     settings.setInListener(this);
     
-
-    auto devices = soundStream.getMatchingDevices("JackRouter");
+    auto devices = soundStream.getMatchingDevices("VoiceMeeter Output (VB-Audio VoiceMeeter VAIO)", UINT_MAX, UINT_MAX, ofSoundDevice::Api::MS_DS);
     if(!devices.empty()){
         settings.setInDevice(devices[0]);
     }
